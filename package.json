@@ -13,7 +13,8 @@
   "license": "ISC",
   "author": "Svetlana Polunina",
   "type": "module",
-  "main": "index.js",
+  "main": "./src/index.js",
+  "bin": "./bin/gendiff.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   }
