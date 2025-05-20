@@ -2,7 +2,8 @@
 
 import { Command } from 'commander'
 import packageJson from '../package.json' with { type: 'json' }
-import { resolveAbsolutePath } from '../src/index.js'
+import path from 'path'
+import { cwd } from 'process'
 
 const program = new Command
 program
@@ -12,9 +13,12 @@ program
   .argument('<filepath1>')
   .argument('<filepath2>')
   .action((filepath1, filepath2, options) => {
+    const cwdpath = cwd()
+    const absoluteFilepath1 = path.resolve(cwdpath, filepath1)
+    const absoluteFilepath2 = path.resolve(cwdpath, filepath2)
     console.log(`format: ${options.format ?? 'no option'}`)
-    console.log(`filepath1: ${resolveAbsolutePath(filepath1)}`)
-    console.log(`filepath2: ${resolveAbsolutePath(filepath2)}`)
+    console.log(`filepath1: ${absoluteFilepath1}`)
+    console.log(`filepath2: ${absoluteFilepath2}`)
   })
 
 program.parse()
