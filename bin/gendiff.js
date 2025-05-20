@@ -10,10 +10,12 @@ program
   .option('-f, --format <type>', 'output format')
   .argument('<filepath1>')
   .argument('<filepath2>')
+  .action((filepath1, filepath2, options) => {
+    console.log(`format: ${options.format ?? 'no option'}`)
+    console.log(`filepath1: ${filepath1}`)
+    console.log(`filepath2: ${filepath2}`)
+  })
 
 program.parse()
 
-const [path1, path2] = program.args
-console.log(`format: ${program.opts().format ?? 'unknown'}`)
-console.log(`filepath1: ${path1}`)
-console.log(`filepath2: ${path2}`)
+
