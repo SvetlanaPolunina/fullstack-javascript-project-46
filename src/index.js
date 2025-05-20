@@ -1,3 +1,5 @@
 const genDiff = (filepath1, filepath2) => ''
 
-export default genDiff
+const resolveAbsolutePath = (path) => path
+
+export { genDiff as default, resolveAbsolutePath }
