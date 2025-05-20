@@ -4,6 +4,7 @@ import { Command } from 'commander'
 import packageJson from '../package.json' with { type: 'json' }
 import path from 'path'
 import { cwd } from 'process'
+import parseJson from '../src/parse-json.js'
 
 const program = new Command
 program
@@ -16,9 +17,16 @@ program
     const cwdpath = cwd()
     const absoluteFilepath1 = path.resolve(cwdpath, filepath1)
     const absoluteFilepath2 = path.resolve(cwdpath, filepath2)
+    
     console.log(`format: ${options.format ?? 'no option'}`)
+
     console.log(`filepath1: ${absoluteFilepath1}`)
+    const file1 = parseJson(absoluteFilepath1)
+    console.log(file1)
+    
     console.log(`filepath2: ${absoluteFilepath2}`)
+    const file2 = parseJson(absoluteFilepath2)
+    console.log(file2)
   })
 
 program.parse()
