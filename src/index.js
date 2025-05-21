@@ -1,3 +1,3 @@
-const genDiff = (filepath1, filepath2) => 'boom!'
+const genDiff = (filepath1, filepath2) => 'diff'
 
 export default genDiff
