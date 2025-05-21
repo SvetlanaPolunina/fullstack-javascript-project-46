@@ -6,4 +6,4 @@ const parseJson = (filepath) => {
   return jsonFromFile
 }
 
-export default parseJson
+export { parseJson }
