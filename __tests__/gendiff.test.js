@@ -5,6 +5,7 @@ import genDiff from '../src/index.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
 const getFixturePath = filename => path.join(__dirname, '..', '__fixtures__', filename)
 const readFile = filename => fs.readFileSync(getFixturePath(filename), 'utf-8')
 
@@ -12,7 +13,7 @@ test("genDiff's main flow", () => {
   const fixturePath1 = getFixturePath('file1.json')
   const fixturePath2 = getFixturePath('file2.json')
   const recievedDiff = genDiff(fixturePath1, fixturePath2)
-  const expectedDiff = readFile('result').trim()
+  const expectedDiff = readFile('expected-file.txt').trim()
 
   expect(recievedDiff).toEqual(expectedDiff)
 })
