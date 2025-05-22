@@ -13,7 +13,7 @@ test("genDiff's main flow", () => {
   const fixturePath1 = getFixturePath('file1.json')
   const fixturePath2 = getFixturePath('file2.json')
   const recievedDiff = genDiff(fixturePath1, fixturePath2)
-  const expectedDiff = readFile('expected-file.txt').trim()
+  const expectedDiff = readFile('expected-diff.txt').trim()
 
   expect(recievedDiff).toEqual(expectedDiff)
 })
