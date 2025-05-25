@@ -21,7 +21,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "commander": "^14.0.0"
+    "commander": "^14.0.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "jest": "^29.7.0"
