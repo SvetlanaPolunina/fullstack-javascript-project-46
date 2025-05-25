@@ -15,5 +15,5 @@ test("genDiff's main flow", () => {
   const recievedDiff = genDiff(fixturePath1, fixturePath2)
   const expectedDiff = readFixture('expected-diff.txt')
 
-  expect(recievedDiff).toEqual(expectedDiff) 
+  expect(recievedDiff).toBe(expectedDiff) 
 })
