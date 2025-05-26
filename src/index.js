@@ -16,25 +16,45 @@ const genDiffData = (oldData, newData) => {
     if (!Object.hasOwn(newData, key)) {
       return { ...acc, [key]: { status: 'removed', value: oldData[key] } }
     }
-    if (oldData[key] !== newData[key]) {
-      return {
-        ...acc,
-        [key]: {
-          status: 'updated',
-          oldValue: oldData[key],
-          newValue: newData[key]
-        }
+    if (oldData[key] === newData[key]) {
+      return { ...acc, [key]: { status: 'unchanged', value: oldData[key] } }
+    }
+    return {
+      ...acc,
+      [key]: {
+        status: 'updated',
+        oldValue: oldData[key],
+        newValue: newData[key]
       }
     }
-
-    return { ...acc }
   }, {})
 
   return diff
 }
 
-const formatInternalDiff = data => {
-  return data
+const genDiffLine = (key, diffData) => {
+  const status = diffData[key].status
+  switch (status) {
+    case 'added':
+      return `  + ${key}: ${diffData[key].value}`
+    case 'removed':
+      return `  - ${key}: ${diffData[key].value}`      
+    case 'unchanged':
+      return `    ${key}: ${diffData[key].value}`
+    case 'updated':
+      return `  - ${key}: ${diffData[key].oldValue}\n  + ${key}: ${diffData[key].newValue}`
+  }
+}
+
+const formatDiff = data => {
+  const keys = Object.keys(data)
+  const sortedKeys = _.sortBy(keys)
+  
+  const formatedDiff = sortedKeys
+    .reduce((acc, key) => [...acc, genDiffLine(key, data)], [])
+    .join('\n')
+
+  return `{\n${formatedDiff}\n}`
 }
 
 const genDiff = (absolutePathOldFile, absolutePathNewFile) => {
@@ -45,7 +65,7 @@ const genDiff = (absolutePathOldFile, absolutePathNewFile) => {
   const parsedNewData = parseJson(rawNewData)
 
   const diffData = genDiffData(parsedOldData, parsedNewData)
-  const formatedDiff = formatInternalDiff(diffData)
+  const formatedDiff = formatDiff(diffData)
 
   return formatedDiff
 }
