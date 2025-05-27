@@ -24,8 +24,8 @@ const genDiffData = (oldData, newData) => {
       [key]: {
         status: 'updated',
         oldValue: oldData[key],
-        newValue: newData[key]
-      }
+        newValue: newData[key],
+      },
     }
   }, {})
 
@@ -38,7 +38,7 @@ const genDiffLine = (key, diffData) => {
     case 'added':
       return `  + ${key}: ${diffData[key].value}`
     case 'removed':
-      return `  - ${key}: ${diffData[key].value}`      
+      return `  - ${key}: ${diffData[key].value}`
     case 'unchanged':
       return `    ${key}: ${diffData[key].value}`
     case 'updated':
@@ -46,10 +46,10 @@ const genDiffLine = (key, diffData) => {
   }
 }
 
-const formatDiff = data => {
+const formatDiff = (data) => {
   const keys = Object.keys(data)
   const sortedKeys = _.sortBy(keys)
-  
+
   const formatedDiff = sortedKeys
     .reduce((acc, key) => [...acc, genDiffLine(key, data)], [])
     .join('\n')
