@@ -10,6 +10,9 @@ test:
 test-watch:
 	NODE_OPTIONS=--experimental-vm-modules npx jest --watch
 
+lint:
+	npx eslint .
+
 publish:
 	npm publish --dry-run
 
