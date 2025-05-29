@@ -5,10 +5,13 @@ run:
 	./bin/gendiff.js $(ARGS)
 
 test:
-	NODE_OPTIONS=--experimental-vm-modules npx jest
+	npm test
 
 test-watch:
-	NODE_OPTIONS=--experimental-vm-modules npx jest --watch
+	npm test --watch
+
+test-coverage:
+	npm test -- --coverage
 
 lint:
 	npx eslint .
