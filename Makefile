@@ -5,9 +5,6 @@ run:
 	./bin/gendiff.js $(ARGS)
 
 test:
-	npm test
-
-test-watch:
 	npm test -- --watch
 
 test-coverage:
