@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs'
-import { parseJson } from './parsers.js'
+import path from 'path'
 import _ from 'lodash'
+import { parseJSON, parseYAML } from './parsers.js'
 
 const readFile = absoluteFilepath => readFileSync(absoluteFilepath, 'utf8').trim()
 
@@ -57,14 +58,30 @@ const formatDiff = (data) => {
   return `{\n${formatedDiff}\n}`
 }
 
-const genDiff = (absolutePathOldFile, absolutePathNewFile) => {
-  const rawOldData = readFile(absolutePathOldFile)
-  const rawNewData = readFile(absolutePathNewFile)
+const getParser = (fileFormat) => {
+  switch (fileFormat) {
+    case '.json':
+      return parseJSON
+    case '.yaml':
+    case '.yml':
+      return parseYAML
+    default:
+      throw new Error(`${fileFormat} file format is not supported`)
+  }
+}
 
-  const parsedOldData = parseJson(rawOldData)
-  const parsedNewData = parseJson(rawNewData)
+const getData = (absoluteFilepath) => {
+  const rawData = readFile(absoluteFilepath)
+  const fileFormat = path.extname(absoluteFilepath)
+  const parse = getParser(fileFormat)
+  return parse(rawData)
+}
 
-  const diffData = genDiffData(parsedOldData, parsedNewData)
+const genDiff = (oldFileAbsolutePath, newFileAbsolutePath) => {
+  const oldData = getData(oldFileAbsolutePath)
+  const newData = getData(newFileAbsolutePath)
+
+  const diffData = genDiffData(oldData, newData)
   const formatedDiff = formatDiff(diffData)
 
   return formatedDiff

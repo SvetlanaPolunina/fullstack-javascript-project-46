@@ -1,3 +1,5 @@
-const parseJson = rawData => JSON.parse(rawData)
+import yaml from 'js-yaml'
 
-export { parseJson }
+export const parseJSON = rawData => JSON.parse(rawData)
+
+export const parseYAML = rawData => yaml.load(rawData)
