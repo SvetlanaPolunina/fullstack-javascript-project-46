@@ -70,9 +70,11 @@ const getParser = (fileFormat) => {
   }
 }
 
+const getFileFormat = filepath => path.extname(filepath)
+
 const getData = (absoluteFilepath) => {
   const rawData = readFile(absoluteFilepath)
-  const fileFormat = path.extname(absoluteFilepath)
+  const fileFormat = getFileFormat(absoluteFilepath)
   const parse = getParser(fileFormat)
   return parse(rawData)
 }
@@ -87,4 +89,4 @@ const genDiff = (oldFileAbsolutePath, newFileAbsolutePath) => {
   return formatedDiff
 }
 
-export { genDiff as default, readFile }
+export default genDiff
