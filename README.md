@@ -1,7 +1,6 @@
 # genDiff @hexlet/code
 A command-line utility for comparing two configuration files and shows a difference.
 
-
 ### Hexlet tests and linter status:
 [![Node CI](https://github.com/SvetlanaPolunina/fullstack-javascript-project-46/actions/workflows/student-check.yml/badge.svg)](https://github.com/SvetlanaPolunina/fullstack-javascript-project-46/actions/workflows/student-check.yml)
 [![Actions Status](https://github.com/SvetlanaPolunina/fullstack-javascript-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/SvetlanaPolunina/fullstack-javascript-project-46/actions)
