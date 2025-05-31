@@ -73,10 +73,11 @@ const getParser = (fileFormat) => {
 const getFileFormat = filepath => path.extname(filepath)
 
 const getData = (absoluteFilepath) => {
-  const rawData = readFile(absoluteFilepath)
   const fileFormat = getFileFormat(absoluteFilepath)
   const parse = getParser(fileFormat)
-  return parse(rawData)
+  const rawData = readFile(absoluteFilepath)
+  const parsedData = parse(rawData)
+  return parsedData
 }
 
 const genDiff = (oldFileAbsolutePath, newFileAbsolutePath) => {
