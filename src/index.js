@@ -1,24 +1,12 @@
 import { readFileSync } from 'fs'
 import path from 'path'
 import _ from 'lodash'
-import { parseJSON, parseYAML } from './parsers.js'
+import getParser from './parsers.js'
 import getFormatter from './formatters/index.js'
 
 const getFileFormat = filepath => path.extname(filepath)
 
 const getFullFilePath = filepath => path.resolve(process.cwd(), filepath)
-
-const getParser = (fileFormat) => {
-  switch (fileFormat) {
-    case '.json':
-      return parseJSON
-    case '.yaml':
-    case '.yml':
-      return parseYAML
-    default:
-      throw new Error(`${fileFormat} file format is not supported`)
-  }
-}
 
 const readFile = fullFilePath => readFileSync(fullFilePath, 'utf8').trim()
 
