@@ -8,11 +8,11 @@ const cli = () => {
   program
     .version(`${packageJson.version}`)
     .description('Compares two configuration files and shows a difference.')
-    .option('-f, --format <type>', 'output format')
+    .option('-f, --format <type>', 'output format', 'stylish')
     .argument('<filepath1>')
     .argument('<filepath2>')
-    .action((filepath1, filepath2) => {
-      const diff = genDiff(filepath1, filepath2)
+    .action((filepath1, filepath2, options) => {
+      const diff = genDiff(filepath1, filepath2, options.format)
       console.log(diff)
     })
 

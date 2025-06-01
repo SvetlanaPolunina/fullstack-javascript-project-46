@@ -2,31 +2,7 @@ import { readFileSync } from 'fs'
 import path from 'path'
 import _ from 'lodash'
 import { parseJSON, parseYAML } from './parsers.js'
-
-const genDiffLine = (key, diffData) => {
-  const status = diffData[key].status
-  switch (status) {
-    case 'added':
-      return `  + ${key}: ${diffData[key].value}`
-    case 'removed':
-      return `  - ${key}: ${diffData[key].value}`
-    case 'unchanged':
-      return `    ${key}: ${diffData[key].value}`
-    case 'updated':
-      return `  - ${key}: ${diffData[key].oldValue}\n  + ${key}: ${diffData[key].newValue}`
-  }
-}
-
-const formatDiff = (data) => {
-  const keys = Object.keys(data)
-  const sortedKeys = _.sortBy(keys)
-
-  const formatedDiff = sortedKeys
-    .reduce((acc, key) => [...acc, genDiffLine(key, data)], [])
-    .join('\n')
-
-  return `{\n${formatedDiff}\n}`
-}
+import getFormatter from './formatters/index.js'
 
 const getFileFormat = filepath => path.extname(filepath)
 
@@ -40,11 +16,11 @@ const getParser = (fileFormat) => {
     case '.yml':
       return parseYAML
     default:
-      throw new Error(`${fileFormat} file format is not supported`)
+      throw new Error(fileFormat + ' file format is not supported')
   }
 }
 
-const readFile = fullFilePath => readFileSync(fullFilePath, 'utf8').toString()
+const readFile = fullFilePath => readFileSync(fullFilePath, 'utf8').trim()
 
 const getData = (filepath) => {
   const fileFormat = getFileFormat(filepath)
@@ -85,11 +61,13 @@ const genDiffData = (data1, data2) => {
   return diff
 }
 
-const genDiff = (filepath1, filepath2) => {
+const genDiff = (filepath1, filepath2, formatName) => {
   const data1 = getData(filepath1)
   const data2 = getData(filepath2)
 
   const diffData = genDiffData(data1, data2)
+
+  const formatDiff = getFormatter(formatName)
   const formatedDiff = formatDiff(diffData)
 
   return formatedDiff
