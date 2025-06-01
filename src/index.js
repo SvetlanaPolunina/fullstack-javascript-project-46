@@ -3,36 +3,6 @@ import path from 'path'
 import _ from 'lodash'
 import { parseJSON, parseYAML } from './parsers.js'
 
-const readFile = absoluteFilepath => readFileSync(absoluteFilepath, 'utf8').trim()
-
-const genDiffData = (oldData, newData) => {
-  const oldDataKeys = Object.keys(oldData)
-  const newDataKeys = Object.keys(newData)
-  const diffKeys = _.union(oldDataKeys, newDataKeys)
-
-  const diff = diffKeys.reduce((acc, key) => {
-    if (!Object.hasOwn(oldData, key)) {
-      return { ...acc, [key]: { status: 'added', value: newData[key] } }
-    }
-    if (!Object.hasOwn(newData, key)) {
-      return { ...acc, [key]: { status: 'removed', value: oldData[key] } }
-    }
-    if (oldData[key] === newData[key]) {
-      return { ...acc, [key]: { status: 'unchanged', value: oldData[key] } }
-    }
-    return {
-      ...acc,
-      [key]: {
-        status: 'updated',
-        oldValue: oldData[key],
-        newValue: newData[key],
-      },
-    }
-  }, {})
-
-  return diff
-}
-
 const genDiffLine = (key, diffData) => {
   const status = diffData[key].status
   switch (status) {
@@ -58,6 +28,10 @@ const formatDiff = (data) => {
   return `{\n${formatedDiff}\n}`
 }
 
+const getFileFormat = filepath => path.extname(filepath)
+
+const getFullFilePath = filepath => path.resolve(process.cwd(), filepath)
+
 const getParser = (fileFormat) => {
   switch (fileFormat) {
     case '.json':
@@ -70,21 +44,52 @@ const getParser = (fileFormat) => {
   }
 }
 
-const getFileFormat = filepath => path.extname(filepath)
+const readFile = fullFilePath => readFileSync(fullFilePath, 'utf8').toString()
 
-const getData = (absoluteFilepath) => {
-  const fileFormat = getFileFormat(absoluteFilepath)
+const getData = (filepath) => {
+  const fileFormat = getFileFormat(filepath)
   const parse = getParser(fileFormat)
-  const rawData = readFile(absoluteFilepath)
+  const fullFilePath = getFullFilePath(filepath)
+
+  const rawData = readFile(fullFilePath)
   const parsedData = parse(rawData)
+
   return parsedData
 }
 
-const genDiff = (oldFileAbsolutePath, newFileAbsolutePath) => {
-  const oldData = getData(oldFileAbsolutePath)
-  const newData = getData(newFileAbsolutePath)
+const genDiffData = (data1, data2) => {
+  const dataKeys1 = Object.keys(data1)
+  const dataKeys2 = Object.keys(data2)
+  const diffKeys = _.union(dataKeys1, dataKeys2)
 
-  const diffData = genDiffData(oldData, newData)
+  const diff = diffKeys.reduce((acc, key) => {
+    if (!Object.hasOwn(data1, key)) {
+      return { ...acc, [key]: { status: 'added', value: data2[key] } }
+    }
+    if (!Object.hasOwn(data2, key)) {
+      return { ...acc, [key]: { status: 'removed', value: data1[key] } }
+    }
+    if (data1[key] === data2[key]) {
+      return { ...acc, [key]: { status: 'unchanged', value: data1[key] } }
+    }
+    return {
+      ...acc,
+      [key]: {
+        status: 'updated',
+        oldValue: data1[key],
+        newValue: data2[key],
+      },
+    }
+  }, {})
+
+  return diff
+}
+
+const genDiff = (filepath1, filepath2) => {
+  const data1 = getData(filepath1)
+  const data2 = getData(filepath2)
+
+  const diffData = genDiffData(data1, data2)
   const formatedDiff = formatDiff(diffData)
 
   return formatedDiff
