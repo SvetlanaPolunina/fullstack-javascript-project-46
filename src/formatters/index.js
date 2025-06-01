@@ -1,11 +1,11 @@
-import formatStylis from './stylish-formatter.js'
+import formatStylish from './stylish-formatter.js'
 
 const getFormatter = (formatName) => {
   switch (formatName) {
     case 'stylish':
-      return formatStylis
+      return formatStylish
     default:
-      throw new Error(formatName + ' output format is not supported')
+      throw new Error(`${formatName} output format is not supported`)
   }
 }
 
