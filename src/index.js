@@ -57,18 +57,15 @@ const genDiffTree = (data1, data2) => {
 const genDiff = (filepath1, filepath2, formatName) => {
   const data1 = getData(filepath1)
   const data2 = getData(filepath2)
+  const formatDiff = getFormatter(formatName)
 
   const diffTree = {
     name: `diff between files ${filepath1} ${filepath2}`,
     diff: genDiffTree(data1, data2),
   }
-
-  const formatDiff = getFormatter(formatName)
-/*  const formatedDiff = formatDiff(diffTree)
+  const formatedDiff = formatDiff(diffTree)
 
   return formatedDiff
-*/
-  return JSON.stringify(diffTree, null, 2)
 }
 
 export default genDiff
