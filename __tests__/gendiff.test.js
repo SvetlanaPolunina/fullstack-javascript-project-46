@@ -20,7 +20,7 @@ test.each([
 
   expect(recievedDiff).toBe(expectedDiff)
 })
-/*
+
 test.each([
   ['file1.json', 'file2.json'],
   ['file1.yaml', 'file2.yaml'],
@@ -32,4 +32,3 @@ test.each([
 
   expect(recievedDiff).toBe(expectedDiff)
 })
-*/
