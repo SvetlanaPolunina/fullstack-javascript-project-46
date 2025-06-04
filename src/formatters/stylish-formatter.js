@@ -34,6 +34,7 @@ const formatStylish = (data) => {
     const keyShift = `${shiftSymbol.repeat(depth * shiftAmount - shiftLeft)}`
     const braceShift = `${shiftSymbol.repeat((depth - 1) * shiftAmount)}`
     const diffs = tree.diff
+
     const formatedDiffs = diffs.map((key) => {
       switch (key.status) {
         case 'added':
