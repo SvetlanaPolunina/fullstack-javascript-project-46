@@ -1,6 +1,5 @@
-import formatStylish from './stylish-formatter.js'
+import formatStylish, { isObj } from './stylish-formatter.js'
 import formatJSON from './json-formatter.js'
-import { isObj } from './stylish-formatter.js'
 
 const getFormatter = (formatName) => {
   switch (formatName) {
