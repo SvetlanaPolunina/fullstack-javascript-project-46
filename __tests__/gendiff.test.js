@@ -40,7 +40,7 @@ test.each([
   const fixturePath1 = getFixturePath(filename1)
   const fixturePath2 = getFixturePath(filename2)
   const recievedDiff = genDiff(fixturePath1, fixturePath2, 'stylish')
-  const expectedDiff = readFixture('expected-plan-diff.txt')
+  const expectedDiff = readFixture('expected-plain-diff.txt')
 
   expect(recievedDiff).toBe(expectedDiff)
 })
