@@ -1,5 +1,6 @@
 import formatStylish from './stylish-formatter.js'
 import formatJSON from './json-formatter.js'
+import { isObj } from './stylish-formatter.js'
 
 const getFormatter = (formatName) => {
   switch (formatName) {
@@ -12,4 +13,4 @@ const getFormatter = (formatName) => {
   }
 }
 
-export default getFormatter
+export { getFormatter as default, isObj }

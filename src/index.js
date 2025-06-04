@@ -2,7 +2,7 @@ import { readFileSync } from 'fs'
 import path from 'path'
 import _ from 'lodash'
 import getParser from './parsers.js'
-import getFormatter from './formatters/index.js'
+import getFormatter, { isObj } from './formatters/index.js'
 
 const getFileFormat = filepath => path.extname(filepath)
 
@@ -20,8 +20,6 @@ const getData = (filepath) => {
 
   return parsedData
 }
-
-const isObj = value => (_.isObject(value) && (value !== null))
 
 const genDiffData = (data1, data2) => {
   const data1Keys = Object.keys(data1)

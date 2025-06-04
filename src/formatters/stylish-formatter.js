@@ -1,9 +1,10 @@
 import _ from 'lodash'
-import { isObj } from '../index.js'
 
 const shiftSymbol = ' '
 const shiftAmount = 4
 const shiftLeft = 2
+
+const isObj = value => (typeof (value) === 'object') && (value !== null)
 
 const formatObject = (obj, depth) => {
   const keys = Object.keys(obj)
@@ -56,4 +57,4 @@ const formatStylish = (data) => {
   return iter(data, 1)
 }
 
-export default formatStylish
+export { formatStylish as default, isObj }
