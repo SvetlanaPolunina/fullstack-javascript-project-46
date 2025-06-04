@@ -32,3 +32,15 @@ test.each([
 
   expect(recievedDiff).toBe(expectedDiff)
 })
+
+test.each([
+  ['nested-file1.json', 'nested-file2.json'],
+  ['nested-file1.yaml', 'nested-file2.yaml'],
+])('genDiff\'s nested files plan format', (filename1, filename2) => {
+  const fixturePath1 = getFixturePath(filename1)
+  const fixturePath2 = getFixturePath(filename2)
+  const recievedDiff = genDiff(fixturePath1, fixturePath2, 'stylish')
+  const expectedDiff = readFixture('expected-plan-diff.txt')
+
+  expect(recievedDiff).toBe(expectedDiff)
+})
