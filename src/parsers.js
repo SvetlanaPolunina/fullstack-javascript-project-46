@@ -12,7 +12,7 @@ const getParser = (fileFormat) => {
     case '.yml':
       return parseYAML
     default:
-      throw new Error(`${fileFormat} file format is not supported`)
+      throw new Error(`Unknown file format ${fileFormat}`)
   }
 }
 

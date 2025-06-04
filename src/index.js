@@ -20,38 +20,35 @@ const getData = (filepath) => {
 
   return parsedData
 }
-// проверить, что это именно объект, а не массив, и не null
-const isObj = value => (_.isObject(value) && (value !== null) && (!Array.isArray(value)))
 
-const isEqualArrays = (value1, value2) => ((Array.isArray(value1) && Array.isArray(value2))
-  && (_.isEqual(value1, value2)))
+const isObj = value => (_.isObject(value) && (value !== null))
 
-const genDiffTree = (data1, data2) => {
+const genDiffData = (data1, data2) => {
   const data1Keys = Object.keys(data1)
   const data2Keys = Object.keys(data2)
   const diffKeys = _.union(data1Keys, data2Keys)
   const sortedKey = _.sortBy(diffKeys)
 
-  const diffTree = sortedKey.map((key) => {
+  const diffData = sortedKey.map((key) => {
     const oldValue = structuredClone(data1[key])
     const newValue = structuredClone(data2[key])
 
     if (!Object.hasOwn(data1, key)) {
-      return { property: key, status: 'added', value: newValue }
+      return { name: key, status: 'added', value: newValue }
     }
     if (!Object.hasOwn(data2, key)) {
-      return { property: key, status: 'removed', value: oldValue }
+      return { name: key, status: 'removed', value: oldValue }
     }
     if (isObj(oldValue) && isObj(newValue)) {
-      return { property: key, status: 'nested', diff: genDiffTree(oldValue, newValue) }
+      return { name: key, status: 'nested', diff: genDiffData(oldValue, newValue) }
     }
-    if ((oldValue === newValue) || isEqualArrays(oldValue, newValue)) {
-      return { property: key, status: 'unchanged', value: oldValue }
+    if (oldValue === newValue) {
+      return { name: key, status: 'unchanged', value: oldValue }
     }
-    return { property: key, status: 'updated', oldValue, newValue }
+    return { name: key, status: 'updated', oldValue, newValue }
   })
 
-  return diffTree
+  return diffData
 }
 
 const genDiff = (filepath1, filepath2, formatName) => {
@@ -61,11 +58,11 @@ const genDiff = (filepath1, filepath2, formatName) => {
 
   const diffTree = {
     name: `diff between files ${filepath1} ${filepath2}`,
-    diff: genDiffTree(data1, data2),
+    diff: genDiffData(data1, data2),
   }
   const formatedDiff = formatDiff(diffTree)
 
   return formatedDiff
 }
 
-export default genDiff
+export { genDiff as default, isObj }
