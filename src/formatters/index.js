@@ -2,17 +2,17 @@ import formatStylish, { isObj } from './stylish-formatter.js'
 import formatJSON from './json-formatter.js'
 import formatPlain from './plain-formatter.js'
 
+const formatters = {
+  stylish: formatStylish,
+  plain: formatPlain,
+  json: formatJSON,
+}
+
 const getFormatter = (formatName) => {
-  switch (formatName) {
-    case 'stylish':
-      return formatStylish
-    case 'json':
-      return formatJSON
-    case 'plain':
-      return formatPlain
-    default:
-      throw new Error(`${formatName} output format is not supported`)
+  if (!Object.hasOwn(formatters, formatName)) {
+    throw new Error(`Unknown formatName: ${formatName}`)
   }
+  return formatters[formatName]
 }
 
 export { getFormatter as default, isObj }
