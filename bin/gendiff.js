@@ -2,7 +2,7 @@
 
 import { Command } from 'commander'
 import packageJson from '../package.json' with { type: 'json' }
-import genDiff from './index.js'
+import genDiff from '../src/index.js'
 
 const program = new Command()
 
