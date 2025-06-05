@@ -19,10 +19,10 @@ const genDiffs = (data1, data2) => {
     if (_.isPlainObject(oldValue) && _.isPlainObject(newValue)) {
       return { name: key, status: 'nested', children: genDiffs(oldValue, newValue) }
     }
-    if (oldValue === newValue) {
-      return { name: key, status: 'unchanged', value: oldValue }
+    if (!Array.isArray(oldValue) && !Array.isArray(newValue) && (oldValue !== newValue)) {
+      return { name: key, status: 'updated', oldValue, newValue }
     }
-    return { name: key, status: 'updated', oldValue, newValue }
+    return { name: key, status: 'unchanged', value: oldValue }
   })
 
   return diffs
