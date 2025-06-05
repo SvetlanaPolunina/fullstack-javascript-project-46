@@ -8,11 +8,11 @@ const formatters = {
   json: formatJSON,
 }
 
-const getFormatter = (formatName) => {
-  if (!Object.hasOwn(formatters, formatName)) {
-    throw new Error(`Unknown formatName: ${formatName}`)
+const getFormatter = (format) => {
+  if (!Object.hasOwn(formatters, format)) {
+    throw new Error(`Unknown formatName: ${format}`)
   }
-  return formatters[formatName]
+  return formatters[format]
 }
 
 export default getFormatter
