@@ -4,7 +4,7 @@ import _ from 'lodash'
 import getParser from './parsers.js'
 import getFormatter, { isObj } from './formatters/index.js'
 
-const getFileFormat = filepath => path.extname(filepath)
+const getFileFormat = filepath => path.extname(filepath).split('.').pop()
 
 const getFullFilePath = filepath => path.resolve(process.cwd(), filepath)
 
@@ -25,9 +25,9 @@ const genDiffData = (data1, data2) => {
   const data1Keys = Object.keys(data1)
   const data2Keys = Object.keys(data2)
   const diffKeys = _.union(data1Keys, data2Keys)
-  const sortedKey = _.sortBy(diffKeys)
+  const sortedDiffKeys = _.sortBy(diffKeys)
 
-  const diffData = sortedKey.map((key) => {
+  const diffs = sortedDiffKeys.map((key) => {
     const oldValue = structuredClone(data1[key])
     const newValue = structuredClone(data2[key])
 
@@ -46,7 +46,7 @@ const genDiffData = (data1, data2) => {
     return { name: key, status: 'updated', oldValue, newValue }
   })
 
-  return diffData
+  return diffs
 }
 
 const genDiff = (filepath1, filepath2, formatName) => {
@@ -63,4 +63,4 @@ const genDiff = (filepath1, filepath2, formatName) => {
   return formatedDiff
 }
 
-export { genDiff as default, isObj }
+export default genDiff
