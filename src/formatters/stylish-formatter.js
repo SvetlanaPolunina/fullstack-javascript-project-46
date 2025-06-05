@@ -4,27 +4,24 @@ const shiftSymbol = ' '
 const shiftAmount = 4
 const shiftLeft = 2
 
-const formatObject = (obj, depth) => {
-  const keys = Object.keys(obj)
+const formatValue = (value, depth) => {
+  if (!_.isPlainObject(value)) {
+    return value
+  }
+
+  const keys = Object.keys(value)
   const sortedKey = _.sortBy(keys)
   const keyShift = `${shiftSymbol.repeat(depth * shiftAmount)}`
   const braceShift = `${shiftSymbol.repeat((depth - 1) * shiftAmount)}`
 
   const formatedKeys = sortedKey.map((key) => {
-    if (!_.isPlainObject(obj[key])) {
-      return `${keyShift}${key}: ${obj[key]}`
+    if (!_.isPlainObject(value[key])) {
+      return `${keyShift}${key}: ${value[key]}`
     }
-    return `${keyShift}${key}: ${formatObject(obj[key], depth + 1)}`
+    return `${keyShift}${key}: ${formatValue(value[key], depth + 1)}`
   })
 
   return `{\n${formatedKeys.join('\n')}\n${braceShift}}`
-}
-
-const formatValue = (value, depth) => {
-  if (_.isPlainObject(value)) {
-    return formatObject(value, depth)
-  }
-  return value
 }
 
 const formatStylish = (data) => {
