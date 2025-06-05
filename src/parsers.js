@@ -1,13 +1,9 @@
 import yaml from 'js-yaml'
 
-const parseJSON = rawData => JSON.parse(rawData)
-
-const parseYAML = rawData => yaml.load(rawData)
-
 const parsers = {
-  json: parseJSON,
-  yaml: parseYAML,
-  yml: parseYAML,
+  json: rawData => JSON.parse(rawData),
+  yaml: rawData => yaml.load(rawData),
+  yml: rawData => yaml.load(rawData),
 }
 
 const getParser = (fileFormat) => {
