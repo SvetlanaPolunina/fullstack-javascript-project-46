@@ -1,6 +1,12 @@
 # genDiff @hexlet/code
 A command-line utility for comparing two configuration files and shows a difference.
 
+Utility capabilities:
+
+* support for various input formats: JSON, YAML
+
+* report generation in plain text, stylish, and JSON formats
+
 ### Hexlet tests and linter status:
 [![Node CI](https://github.com/SvetlanaPolunina/fullstack-javascript-project-46/actions/workflows/student-check.yml/badge.svg)](https://github.com/SvetlanaPolunina/fullstack-javascript-project-46/actions/workflows/student-check.yml)
 
@@ -16,10 +22,16 @@ A command-line utility for comparing two configuration files and shows a differe
 npm install @hexlet/code
 ```
 
-## Asciinema for each step
+## Usage examples
 
-### Step 1-2: help
+### Compare two JSON configuration files and generate report in plan text format
+[![asciicast](https://asciinema.org/a/722073.svg)](https://asciinema.org/a/722073)
+
+### Compare two YAML configuration files and generate report in stylish format
+[![asciicast](https://asciinema.org/a/722076.svg)](https://asciinema.org/a/722076)
+
+### Compare JSON and YAML configuration files and generate report in JSON format
+[![asciicast](https://asciinema.org/a/722080.svg)](https://asciinema.org/a/722080)
+
+### Help
 [![asciicast](https://asciinema.org/a/720961.svg)](https://asciinema.org/a/720961)
-
-### Step 4: comparing two plain json files
-[![asciicast](https://asciinema.org/a/720959.svg)](https://asciinema.org/a/720959)
