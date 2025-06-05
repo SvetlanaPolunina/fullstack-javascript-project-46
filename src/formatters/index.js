@@ -10,7 +10,6 @@ const formatters = {
 
 const getFormatter = (format) => {
   if (!Object.hasOwn(formatters, format)) {
-  //    throw new Error(`Unknown formatName: ${format}`)
     return formatStylish
   }
   return formatters[format]
