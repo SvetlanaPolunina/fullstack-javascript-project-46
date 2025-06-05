@@ -52,7 +52,6 @@ const genDiffData = (data1, data2) => {
 const genDiff = (filepath1, filepath2, formatName) => {
   const data1 = getData(filepath1)
   const data2 = getData(filepath2)
-  console.log(`!!!!!!!!!!!!!!!!!!!${formatName}`)
   const formatDiff = getFormatter(formatName)
 
   const diffTree = {
