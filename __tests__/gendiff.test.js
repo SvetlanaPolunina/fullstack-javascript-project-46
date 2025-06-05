@@ -31,3 +31,12 @@ test.each(files)('genDiff\'s plain format', (filename1, filename2) => {
 
   expect(actualDiff).toBe(expectedDiff)
 })
+
+test.each(files)('genDiff\'s json format', (filename1, filename2) => {
+  const fixturePath1 = getFixturePath(filename1)
+  const fixturePath2 = getFixturePath(filename2)
+  const actualDiff = genDiff(fixturePath1, fixturePath2, 'json')
+  const expectedDiff = readFixture('expected-json-diff.txt')
+
+  expect(actualDiff).toBe(expectedDiff)
+})
