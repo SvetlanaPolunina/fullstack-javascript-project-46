@@ -1,4 +1,4 @@
-import formatStylish, { isObj } from './stylish-formatter.js'
+import formatStylish from './stylish-formatter.js'
 import formatJSON from './json-formatter.js'
 import formatPlain from './plain-formatter.js'
 
@@ -15,4 +15,4 @@ const getFormatter = (formatName) => {
   return formatters[formatName]
 }
 
-export { getFormatter as default, isObj }
+export default getFormatter

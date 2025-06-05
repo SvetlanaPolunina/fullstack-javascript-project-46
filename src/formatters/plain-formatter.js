@@ -1,7 +1,7 @@
-const isObj = value => (typeof (value) === 'object') && (value !== null)
+import _ from 'lodash'
 
 const formatValue = (value) => {
-  if (isObj(value)) {
+  if (_.isPlainObject(value)) {
     return '[complex value]'
   }
   if (typeof value === 'string') {

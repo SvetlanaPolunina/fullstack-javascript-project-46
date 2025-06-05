@@ -2,7 +2,7 @@ import { readFileSync } from 'fs'
 import path from 'path'
 import _ from 'lodash'
 import getParser from './parsers.js'
-import getFormatter, { isObj } from './formatters/index.js'
+import getFormatter from './formatters/index.js'
 
 const getFileFormat = filepath => path.extname(filepath).split('.').pop()
 
@@ -37,7 +37,7 @@ const genDiffData = (data1, data2) => {
     if (!Object.hasOwn(data2, key)) {
       return { name: key, status: 'removed', value: oldValue }
     }
-    if (isObj(oldValue) && isObj(newValue)) {
+    if (_.isPlainObject(oldValue) && _.isPlainObject(newValue)) {
       return { name: key, status: 'nested', diff: genDiffData(oldValue, newValue) }
     }
     if (oldValue === newValue) {
