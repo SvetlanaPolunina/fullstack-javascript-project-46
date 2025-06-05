@@ -1,5 +1,5 @@
 {
-  "name": "diff between two files",
+  "name": "a difference between two configuration files",
   "diff": [
     {
       "name": "common",

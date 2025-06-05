@@ -55,7 +55,7 @@ const genDiff = (filepath1, filepath2, formatName) => {
   const formatDiff = getFormatter(formatName)
 
   const diffTree = {
-    name: `diff between two files`,
+    name: `a difference between two configuration files`,
     diff: genDiffData(data1, data2),
   }
   const formatedDiff = formatDiff(diffTree)
