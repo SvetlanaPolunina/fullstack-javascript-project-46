@@ -9,11 +9,15 @@ const __dirname = path.dirname(__filename)
 const getFixturePath = filename => path.join(__dirname, '..', '__fixtures__', filename)
 const readFixture = filename => fs.readFileSync(getFixturePath(filename), 'utf-8').trim()
 
+let expectedDiff
+
 const diffFormats = ['stylish', 'plain', 'json']
 const fileFormats = ['json', 'yaml', 'yml']
 
 describe.each(diffFormats)('genDiff %s diff format', (diffFormat) => {
-  const expectedDiff = readFixture(`expected-${diffFormat}-diff.txt`)
+  beforeAll(() => {
+    expectedDiff = readFixture(`expected-${diffFormat}-diff.txt`)
+  })
 
   test.each(fileFormats)('gendiff %s files', (fileFormat) => {
     const fixturePath1 = getFixturePath(`file1.${fileFormat}`)
