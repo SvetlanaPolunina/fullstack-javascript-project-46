@@ -13,7 +13,7 @@ const formatValue = (value) => {
 
 const formatPlain = (data) => {
   const iter = (tree, propertyPath) => {
-    const diffs = tree.diff
+    const diffs = tree.children
     const formatedDiffs = diffs
       .filter(key => key.status !== 'unchanged')
       .map((key) => {

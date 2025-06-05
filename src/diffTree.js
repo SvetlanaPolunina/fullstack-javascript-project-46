@@ -17,7 +17,7 @@ const genDiffs = (data1, data2) => {
       return { name: key, status: 'removed', value: oldValue }
     }
     if (_.isPlainObject(oldValue) && _.isPlainObject(newValue)) {
-      return { name: key, status: 'nested', diff: genDiffs(oldValue, newValue) }
+      return { name: key, status: 'nested', children: genDiffs(oldValue, newValue) }
     }
     if (oldValue === newValue) {
       return { name: key, status: 'unchanged', value: oldValue }
@@ -30,8 +30,8 @@ const genDiffs = (data1, data2) => {
 
 const genDiffTree = (data1, data2) => {
   const diffTree = {
-    name: `a difference between two configuration files`,
-    diff: genDiffs(data1, data2),
+    type: 'root',
+    children: genDiffs(data1, data2),
   }
 
   return diffTree

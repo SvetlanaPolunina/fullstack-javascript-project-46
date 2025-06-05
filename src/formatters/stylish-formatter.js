@@ -28,7 +28,7 @@ const formatStylish = (data) => {
   const iter = (tree, depth) => {
     const keyShift = `${shiftSymbol.repeat(depth * shiftAmount - shiftLeft)}`
     const braceShift = `${shiftSymbol.repeat((depth - 1) * shiftAmount)}`
-    const diffs = tree.diff
+    const diffs = tree.children
 
     const formatedDiffs = diffs.map((key) => {
       switch (key.status) {
