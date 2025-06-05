@@ -9,6 +9,7 @@ Utility capabilities:
 
 ### Hexlet tests and linter status:
 [![Node CI](https://github.com/SvetlanaPolunina/fullstack-javascript-project-46/actions/workflows/student-check.yml/badge.svg)](https://github.com/SvetlanaPolunina/fullstack-javascript-project-46/actions/workflows/student-check.yml)
+[![hexlet-check](https://github.com/SvetlanaPolunina/fullstack-javascript-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/SvetlanaPolunina/fullstack-javascript-project-46/actions/workflows/hexlet-check.yml)
 
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=SvetlanaPolunina_fullstack-javascript-project-46&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=SvetlanaPolunina_fullstack-javascript-project-46)
