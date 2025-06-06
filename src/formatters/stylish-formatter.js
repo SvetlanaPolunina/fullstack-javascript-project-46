@@ -42,6 +42,21 @@ const formatData = (data, depth) => {
   return `{\n${formatedData}\n${braceShift}}`
 }
 
+const getDiffLineCreater = (status) => {
+  const statusMap = {
+    added: (key, keyShift, depth) => `${keyShift}+ ${key.name}: ${formatData(key.value, depth + 1)}`,
+    removed: (key, keyShift, depth) => `${keyShift}- ${key.name}: ${formatData(key.value, depth + 1)}`,
+    unchanged: (key, keyShift, depth) => `${keyShift}  ${key.name}: ${formatData(key.value, depth + 1)}`,
+    updated: (key, keyShift, depth) => `${keyShift}- ${key.name}: ${formatData(key.oldValue, depth + 1)}\n${keyShift}+ ${key.name}: ${formatData(key.newValue, depth + 1)}`,
+    nested: (key, keyShift, depth, iter) => `${keyShift}  ${key.name}: ${iter(key, depth + 1)}`,
+  }
+
+  if (!Object.hasOwn(statusMap, status)) {
+    throw new Error(`Unknown status: ${status}`)
+  }
+  return statusMap[status]
+}
+
 const formatStylish = (data) => {
   const iter = (tree, depth) => {
     const keyShift = getKeyShift(depth, shiftMap, diffShiftLeft)
@@ -50,22 +65,8 @@ const formatStylish = (data) => {
     const diffs = tree.children
 
     const formatedDiffs = diffs.map((key) => {
-      const statusMap = {
-        added: key => `${keyShift}+ ${key.name}: ${formatData(key.value, depth + 1)}`,
-        removed: key => `${keyShift}- ${key.name}: ${formatData(key.value, depth + 1)}`,
-        unchanged: key => `${keyShift}  ${key.name}: ${formatData(key.value, depth + 1)}`,
-        updated: key => `${keyShift}- ${key.name}: ${formatData(key.oldValue, depth + 1)}\n${keyShift}+ ${key.name}: ${formatData(key.newValue, depth + 1)}`,
-        nested: key => `${keyShift}  ${key.name}: ${iter(key, depth + 1)}`,
-      }
-      const getDiffLineCreater = (status, map) => {
-        if (!Object.hasOwn(map, status)) {
-          throw new Error(`Unknown status: ${status}`)
-        }
-        return map[status]
-      }
-
-      const genDiffLine = getDiffLineCreater(key.status, statusMap)
-      return genDiffLine(key)
+      const genDiffLine = getDiffLineCreater(key.status)
+      return genDiffLine(key, keyShift, depth, iter)
     })
 
     const formatedDiff = formatedDiffs.join('\n')

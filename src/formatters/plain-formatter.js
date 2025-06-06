@@ -11,6 +11,19 @@ const formatValue = (value) => {
   return value
 }
 
+const getDiffLineCreater = (status) => {
+  const statusMap = {
+    added: (key, propertyPath) => `Property '${propertyPath}${key.name}' was ${key.status} with value: ${formatValue(key.value)}`,
+    removed: (key, propertyPath) => `Property '${propertyPath}${key.name}' was ${key.status}`,
+    updated: (key, propertyPath) => `Property '${propertyPath}${key.name}' was ${key.status}. From ${formatValue(key.oldValue)} to ${formatValue(key.newValue)}`,
+    nested: (key, propertyPath, iter) => iter(key, `${propertyPath}${key.name}.`),
+  }
+  if (!Object.hasOwn(statusMap, status)) {
+    throw new Error(`Unknown status: ${status}`)
+  }
+  return statusMap[status]
+}
+
 const formatPlain = (data) => {
   const iter = (tree, propertyPath) => {
     const diffs = tree.children
@@ -18,22 +31,9 @@ const formatPlain = (data) => {
     const formatedDiffs = diffs
       .filter(key => key.status !== 'unchanged')
       .map((key) => {
-        const statusMap = {
-          added: key => `Property '${propertyPath}${key.name}' was ${key.status} with value: ${formatValue(key.value)}`,
-          removed: key => `Property '${propertyPath}${key.name}' was ${key.status}`,
-          updated: key => `Property '${propertyPath}${key.name}' was ${key.status}. From ${formatValue(key.oldValue)} to ${formatValue(key.newValue)}`,
-          nested: key => iter(key, `${propertyPath}${key.name}.`),
-        }
-
-        const getDiffLineCreater = (status, map) => {
-          if (!Object.hasOwn(map, status)) {
-            throw new Error(`Unknown status: ${status}`)
-          }
-          return map[status]
-        }
-
-        const genDiffLine = getDiffLineCreater(key.status, statusMap)
-        return genDiffLine(key)
+        const genDiffLine = getDiffLineCreater(key.status)
+        const diffLine = genDiffLine(key, propertyPath, iter)
+        return diffLine
       })
 
     return formatedDiffs.join('\n')
