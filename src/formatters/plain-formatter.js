@@ -1,7 +1,7 @@
 import _ from 'lodash'
 
 const formatValue = (value) => {
-  if (_.isPlainObject(value)) {
+  if (_.isPlainObject(value) || Array.isArray(value)) {
     return '[complex value]'
   }
   if (typeof value === 'string') {
@@ -14,24 +14,26 @@ const formatValue = (value) => {
 const formatPlain = (data) => {
   const iter = (tree, propertyPath) => {
     const diffs = tree.children
+
     const formatedDiffs = diffs
       .filter(key => key.status !== 'unchanged')
       .map((key) => {
-        const name = `${propertyPath}${key.name}`
-        const status = key.status
-
-        switch (key.status) {
-          case 'added':
-            return `Property '${name}' was ${status} with value: ${formatValue(key.value)}`
-          case 'removed':
-            return `Property '${name}' was ${status}`
-          case 'updated':
-            return `Property '${name}' was ${status}. From ${formatValue(key.oldValue)} to ${formatValue(key.newValue)}`
-          case 'nested':
-            return iter(key, `${name}.`)
-          default:
-            throw new Error(`Unknown key status ${status}`)
+        const statusMap = {
+          added: key => `Property '${propertyPath}${key.name}' was ${key.status} with value: ${formatValue(key.value)}`,
+          removed: key => `Property '${propertyPath}${key.name}' was ${key.status}`,
+          updated: key => `Property '${propertyPath}${key.name}' was ${key.status}. From ${formatValue(key.oldValue)} to ${formatValue(key.newValue)}`,
+          nested: key => iter(key, `${propertyPath}${key.name}.`),
         }
+
+        const getDiffLineCreater = (status, map) => {
+          if (!Object.hasOwn(map, status)) {
+            throw new Error(`Unknown status: ${status}`)
+          }
+          return map[status]
+        }
+
+        const genDiffLine = getDiffLineCreater(key.status, statusMap)
+        return genDiffLine(key)
       })
 
     return formatedDiffs.join('\n')
