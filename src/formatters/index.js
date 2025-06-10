@@ -4,17 +4,17 @@ import formatPlain from './plain-formatter.js'
 
 const defaultFormat = 'stylish'
 
-const formatters = {
+const formattersMap = {
   stylish: formatStylish,
   plain: formatPlain,
   json: formatJSON,
 }
 
 const getFormatter = (format) => {
-  if (!Object.hasOwn(formatters, format)) {
-    return formatters[defaultFormat]
+  if (!Object.hasOwn(formattersMap, format)) {
+    return formattersMap[defaultFormat]
   }
-  return formatters[format]
+  return formattersMap[format]
 }
 
 export default getFormatter
