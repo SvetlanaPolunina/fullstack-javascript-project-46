@@ -11,13 +11,14 @@ const formatValue = (value) => {
   return value
 }
 
+const statusMap = {
+  added: (key, propertyPath) => `Property '${propertyPath}${key.name}' was ${key.status} with value: ${formatValue(key.value)}`,
+  removed: (key, propertyPath) => `Property '${propertyPath}${key.name}' was ${key.status}`,
+  updated: (key, propertyPath) => `Property '${propertyPath}${key.name}' was ${key.status}. From ${formatValue(key.oldValue)} to ${formatValue(key.newValue)}`,
+  nested: (key, propertyPath, iter) => iter(key, `${propertyPath}${key.name}.`),
+}
+
 const getDiffLineCreater = (status) => {
-  const statusMap = {
-    added: (key, propertyPath) => `Property '${propertyPath}${key.name}' was ${key.status} with value: ${formatValue(key.value)}`,
-    removed: (key, propertyPath) => `Property '${propertyPath}${key.name}' was ${key.status}`,
-    updated: (key, propertyPath) => `Property '${propertyPath}${key.name}' was ${key.status}. From ${formatValue(key.oldValue)} to ${formatValue(key.newValue)}`,
-    nested: (key, propertyPath, iter) => iter(key, `${propertyPath}${key.name}.`),
-  }
   if (!Object.hasOwn(statusMap, status)) {
     throw new Error(`Unknown status: ${status}`)
   }

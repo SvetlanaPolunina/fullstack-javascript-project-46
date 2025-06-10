@@ -42,15 +42,15 @@ const formatData = (data, depth) => {
   return `{\n${formatedData}\n${braceShift}}`
 }
 
-const getDiffLineCreater = (status) => {
-  const statusMap = {
-    added: (key, keyShift, depth) => `${keyShift}+ ${key.name}: ${formatData(key.value, depth + 1)}`,
-    removed: (key, keyShift, depth) => `${keyShift}- ${key.name}: ${formatData(key.value, depth + 1)}`,
-    unchanged: (key, keyShift, depth) => `${keyShift}  ${key.name}: ${formatData(key.value, depth + 1)}`,
-    updated: (key, keyShift, depth) => `${keyShift}- ${key.name}: ${formatData(key.oldValue, depth + 1)}\n${keyShift}+ ${key.name}: ${formatData(key.newValue, depth + 1)}`,
-    nested: (key, keyShift, depth, iter) => `${keyShift}  ${key.name}: ${iter(key, depth + 1)}`,
-  }
+const statusMap = {
+  added: (key, keyShift, depth) => `${keyShift}+ ${key.name}: ${formatData(key.value, depth + 1)}`,
+  removed: (key, keyShift, depth) => `${keyShift}- ${key.name}: ${formatData(key.value, depth + 1)}`,
+  unchanged: (key, keyShift, depth) => `${keyShift}  ${key.name}: ${formatData(key.value, depth + 1)}`,
+  updated: (key, keyShift, depth) => `${keyShift}- ${key.name}: ${formatData(key.oldValue, depth + 1)}\n${keyShift}+ ${key.name}: ${formatData(key.newValue, depth + 1)}`,
+  nested: (key, keyShift, depth, iter) => `${keyShift}  ${key.name}: ${iter(key, depth + 1)}`,
+}
 
+const getDiffLineCreater = (status) => {
   if (!Object.hasOwn(statusMap, status)) {
     throw new Error(`Unknown status: ${status}`)
   }
